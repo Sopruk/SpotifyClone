@@ -1,9 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateTractDto } from './dto/create-track.dto';
+import { TrackService } from './track.service';
 
 @Controller('/tracks')
 export class TrackController {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  create() {}
+  constructor(private trackService: TrackService) {}
+  @Post()
+  create(@Body() dto: CreateTractDto) {
+    return this.trackService.create(dto);
+  }
   @Get()
   getAll() {
     return 'WORK';
