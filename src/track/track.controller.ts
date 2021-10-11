@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { CreateTractDto } from './dto/create-track.dto';
+import { UpdateTractDto } from './dto/update-track.dto';
 import { TrackService } from './track.service';
 
 @Controller('/tracks')
@@ -11,12 +21,18 @@ export class TrackController {
   }
   @Get()
   getAll() {
-    return 'WORK';
+    return this.trackService.getAll();
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getOne() {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update() {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  delete() {}
+  @Get(':id')
+  getOne(@Param('id') id: ObjectId) {
+    return this.trackService.getOne(id);
+  }
+  @Put()
+  update(@Body() dto: UpdateTractDto) {
+    return this.trackService.update(dto);
+  }
+  @Delete(':id')
+  delete(@Param('id') id: ObjectId) {
+    return this.trackService.delete(id);
+  }
 }
