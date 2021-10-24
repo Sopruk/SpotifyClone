@@ -41,6 +41,11 @@ export class TrackController {
   getOne(@Param('id') id: ObjectId) {
     return this.trackService.getOne(id);
   }
+ 
+  @Post('/listen/:id')
+  listen(@Param('id') id: ObjectId) {
+      return this.trackService.listen(id);
+  }
   @Put()
   update(@Body() dto: UpdateTractDto) {
     return this.trackService.update(dto);
