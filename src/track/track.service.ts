@@ -15,6 +15,7 @@ export class TrackService {
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
     private fileService: FileService,
   ) {}
+
   async create(dto: CreateTractDto, picture, audio): Promise<Track> {
     const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
     const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
@@ -26,6 +27,7 @@ export class TrackService {
     });
     return track.save();
   }
+
   async update(dto: UpdateTractDto): Promise<Track> {
     const track = await this.trackModel.findByIdAndUpdate(
       { _id: dto._id },
@@ -34,18 +36,22 @@ export class TrackService {
     );
     return track;
   }
-  async getAll(): Promise<Track[]> {
-    const tracks = await this.trackModel.find();
+
+  async getAll(count = 10, offset = 0): Promise<Track[]> {
+    const tracks = await this.trackModel.find().skip(offset).limit(count);
     return tracks;
   }
+
   async getOne(id: ObjectId): Promise<Track> {
     const track = await await this.trackModel.findById(id).populate('comments');
     return track;
   }
+
   async delete(id: ObjectId): Promise<Track> {
     const track = await this.trackModel.findByIdAndDelete(id);
     return track;
   }
+
   async addComment(dto: CreateCommentDto): Promise<Comment> {
     const track = await this.trackModel.findById(dto.trackId);
     console.log(dto);
@@ -54,7 +60,8 @@ export class TrackService {
     await track.save();
     return comment;
   }
-  async listen(id: ObjectId){
+
+  async listen(id: ObjectId) {
     const track = await this.trackModel.findById(id);
     track.listens += 1;
     await track.save();
