@@ -13,7 +13,7 @@ export class FileService {
   createFile(type: FileType, file) {
     try {
       const fileExtension = file.originalname.split('.').pop();
-      const fileName = uuid.v4() + fileExtension;
+      const fileName = uuid.v4() + '.' + fileExtension;
       const filePatch = path.resolve(__dirname, '..', 'static');
       if (!fs.existsSync(filePatch)) {
         fs.mkdirSync(filePatch, { recursive: true });
