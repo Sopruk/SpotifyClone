@@ -31,7 +31,7 @@ export class TrackController {
     const { picture, audio } = files;
     console.log(files);
     console.log(dto);
-    return this.trackService.create(dto, audio[0], picture[0]);
+    return this.trackService.create(dto, picture[0], audio[0]);
   }
   @Get()
   getAll() {
