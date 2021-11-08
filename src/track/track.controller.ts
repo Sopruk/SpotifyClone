@@ -37,10 +37,6 @@ export class TrackController {
   getAll(@Query('count') count: number, @Query('offset') offset: number) {
     return this.trackService.getAll(Number(count), Number(offset));
   }
-  @Get(':id')
-  getOne(@Param('id') id: ObjectId) {
-    return this.trackService.getOne(id);
-  }
   @Post('/listen/:id')
   listen(@Param('id') id: ObjectId) {
     return this.trackService.listen(id);
@@ -56,5 +52,15 @@ export class TrackController {
   @Post('/comment')
   addComment(@Body() dto: CreateCommentDto) {
     return this.trackService.addComment(dto);
+  }
+
+  @Get('/search')
+  search(@Query('query') query: string) {
+    return this.trackService.search(query);
+  }
+
+  @Get(':id')
+  getOne(@Param('id') id: ObjectId) {
+    return this.trackService.getOne(id);
   }
 }
